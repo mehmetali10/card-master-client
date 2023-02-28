@@ -1,0 +1,83 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+html {
+  font-family: "Montserrat", sans-serif;
+}
+body {
+  background: #eee;
+  background-image: url("https://www.transparenttextures.com/patterns/cubes.png");
+  padding: 0 16px;
+}
+
+form.create-note {
+  position: relative;
+  width: 400px;
+  height: 530px;
+  margin: 30px auto 20px auto;
+  background: #fff;
+  padding: 15px;
+  border-radius: 7px;
+  box-shadow: 0 1px 5px rgb(138, 137, 137);
+}
+form.create-note input,
+form.create-note textarea {
+  width: 100%;
+  border: none;
+  padding: 4px;
+  outline: none;
+  font-size: 1.2em;
+  font-family: inherit;
+  resize: none;
+}
+
+form.create-note button {
+  position: absolute;
+  right: 18px;
+  bottom: -28px;
+  background: #f5ba13;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 56px;
+  height: 56px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  outline: none;
+}
+
+
+.image-upload {
+  width: 100%;
+  height: 50%;
+  margin: auto;
+  margin-bottom: 906px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #d3d3d3;
+  position: relative;
+  background-color: #e6e6e6;
+}
+
+.icon-wrapper {
+  text-align: center;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.upload-icon {
+  color: #d7a314;
+}
+
+.uploaded-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+}

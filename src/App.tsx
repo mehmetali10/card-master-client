@@ -1,8 +1,11 @@
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import CreateCard from "./components/CreateCard";
+
 
 function App() {
   return (
     <>
-      <h1>App</h1>
+      <CreateCard /> 
     </>
   );
 }
