@@ -17,6 +17,7 @@ export default function CreateCard() {
         setImage(selectedImage);
       }
     };
+    
     const handleClick = () => {
       const input = document.getElementById("upload-input");
       input?.click();

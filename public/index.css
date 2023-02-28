@@ -14,7 +14,7 @@ body {
 
 form.create-note {
   position: relative;
-  width: 400px;
+  width: 370px;
   margin: 30px auto 20px auto;
   background: #fff;
   padding: 15px;
@@ -27,7 +27,6 @@ form.create-note textarea {
   border: none;
   padding: 4px;
   outline: none;
-  font-size: 1.2em;
   font-family: inherit;
   resize: none;
 }
@@ -40,6 +39,7 @@ form.create-note input {
 
 form.create-note textarea {
   color: rgb(73, 77, 77);
+  font-size: 1.2em;
 }
 
 form.create-note button {
@@ -88,4 +88,53 @@ form.create-note button {
   top: 0;
   left: 0;
   z-index: 0;
+}
+
+.card {
+  width: 350px;
+  background: #fff;
+  padding: 14px;
+  border-radius: 7px;
+
+  box-shadow: 0 2px 5px #ccc;
+  margin: 50px 30px;
+  float: left;
+}
+
+.card-title, .card-description {
+  width: 100%;
+  border: none;
+  padding: 4px;
+  outline: none;
+  font-size: 1.2em;
+  font-family: inherit;
+  resize: none;
+  margin-bottom: 10px;
+
+}
+
+.card-title {
+  font-size: 1.5em;
+  color: rgb(175, 79, 79);
+}
+
+.card-description {
+  color: rgb(73, 77, 77);
+  font-size: 1.2em;
+  margin-bottom: 25px;
+}
+
+.card-img {
+  margin: 4px;
+  width: 100%;
+  height: 250px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #d3d3d3;
+  position: relative;
+  background-color: #e6e6e6;
+  margin-bottom: 10px;
+
 }
