@@ -7,6 +7,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import StarIcon from '@mui/icons-material/Star';
+import IosShareIcon from '@mui/icons-material/IosShare';
 
 interface CardParticles {
     title: string;
@@ -104,6 +105,10 @@ export default function Card(props: CardParticles) {
                     Edit
                     </MenuItem>
                     <MenuItem onClick={handleClose} disableRipple>
+                        <IosShareIcon />
+                        Share
+                    </MenuItem>
+                    <MenuItem onClick={handleClose} disableRipple>
                     <DeleteIcon />
                     Delete
                     </MenuItem>
@@ -111,7 +116,7 @@ export default function Card(props: CardParticles) {
                 </div>
             </div>
             <div className="card-description">{props.description}</div>
-            <div className="card-img"><img src={props.imgUri} alt={props.title}  style={{ width: "100%", height: "100%", objectFit: "cover" }}/></div>
+            <div className="card-img"><img src={props.imgUri} alt={props.title}  style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: "7px"}}/></div>
         </div>
     )
 }

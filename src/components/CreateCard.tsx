@@ -37,9 +37,11 @@ export default function CreateCard() {
 
     function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
       event.preventDefault();
-      console.log(title);
-      console.log(description);
-      console.log(image);
+      
+      setTitle("");
+      setDescription("");
+      setImage("");
+      setExpanded(false);
     }
 
 
@@ -58,7 +60,7 @@ export default function CreateCard() {
             name="content"
             onChange={handleDescriptionChange}
             value={description}
-            placeholder="Description..."
+            placeholder= {isExpanded ? "Description" : "Generate a card..."}
             rows={isExpanded ? 9 : 1}
             onClick={expand}
           />
