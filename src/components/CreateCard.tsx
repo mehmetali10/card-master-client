@@ -17,7 +17,7 @@ export default function CreateCard() {
         setImage(selectedImage);
       }
     };
-    
+
     const handleClick = () => {
       const input = document.getElementById("upload-input");
       input?.click();
@@ -71,8 +71,8 @@ export default function CreateCard() {
               style={{ width: "100%", height: "100%", objectFit: "cover" }}
             />
           ) : (
-            <div onClick={handleClick}>
-            <FileUploadIcon className="upload-icon" fontSize="large"/>
+            <div onClick={handleClick} className="icon-wrapper">
+            <FileUploadIcon fontSize="large"/>
           </div>
         )}
         <input

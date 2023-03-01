@@ -12,6 +12,7 @@ body {
   padding: 0 16px;
 }
 
+/* createcard style*/
 form.create-note {
   position: relative;
   width: 370px;
@@ -30,18 +31,15 @@ form.create-note textarea {
   font-family: inherit;
   resize: none;
 }
-
 form.create-note input {
   margin-bottom: 16px;
   font-size: 1.5em;
   color: rgb(175, 79, 79);
 }
-
 form.create-note textarea {
   color: rgb(73, 77, 77);
   font-size: 1.2em;
 }
-
 form.create-note button {
   position: absolute;
   right: 18px;
@@ -56,8 +54,6 @@ form.create-note button {
   cursor: pointer;
   outline: none;
 }
-
-
 .image-upload {
   width: 100%;
   height: 250px;
@@ -69,17 +65,12 @@ form.create-note button {
   position: relative;
   background-color: #e6e6e6;
 }
-
 .icon-wrapper {
   text-align: center;
   cursor: pointer;
   z-index: 1;
-}
-
-.upload-icon {
   color: #d7a314;
 }
-
 .uploaded-image {
   width: 100%;
   height: 100%;
@@ -89,6 +80,8 @@ form.create-note button {
   left: 0;
   z-index: 0;
 }
+
+/* card style */
 
 .card {
   width: 350px;
@@ -100,7 +93,14 @@ form.create-note button {
   margin: 50px 30px;
   float: left;
 }
-
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  margin: 6px auto
+}
+.options-icon {
+  color:rgb(176, 175, 175);
+}
 .card-title, .card-description {
   width: 100%;
   border: none;
@@ -110,20 +110,22 @@ form.create-note button {
   font-family: inherit;
   resize: none;
   margin-bottom: 10px;
-
 }
-
+.card-options {
+  flex: 0 0 auto;
+  margin:0;
+}
 .card-title {
+  flex: 1;
   font-size: 1.5em;
+  font-weight: 600;
   color: rgb(175, 79, 79);
 }
-
 .card-description {
-  color: rgb(73, 77, 77);
+  color: rgb(90, 74, 61);
   font-size: 1.2em;
   margin-bottom: 25px;
 }
-
 .card-img {
   margin: 4px;
   width: 100%;
@@ -132,9 +134,6 @@ form.create-note button {
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid #d3d3d3;
-  position: relative;
   background-color: #e6e6e6;
   margin-bottom: 10px;
-
 }
