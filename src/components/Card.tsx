@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { styled, alpha } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import Menu, { MenuProps } from '@mui/material/Menu';
@@ -8,29 +8,42 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import StarIcon from '@mui/icons-material/Star';
 import IosShareIcon from '@mui/icons-material/IosShare';
-import HttpService from '../services/httpClientService/httpService';
-import CardService from '../services/httpClientService/httpCardService/httpCardService';
-import { ICard, ICardComponent } from '../models/ICard';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import Slide from '@mui/material/Slide';
+import { TransitionProps } from '@mui/material/transitions';
+import { ICardComponent } from '../models/ICard';
 
 
 export default function Card(props: ICardComponent) {
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const [openDialog, setOpenDialog] = useState(false);
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
+
+    const handleClickopenDialog = () => {
+      setAnchorEl(null);
+      setOpenDialog(true);
+    };
+
+    const handleClickCloseDialog = () => {
+      setOpenDialog(false);
+    };
 
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
       setAnchorEl(event.currentTarget);
     };
+
     const handleClose = () => {
       setAnchorEl(null);
     };
-
-    const handleEdit = () => {
-        //api call
-    }
     
     const handleDelete = async () => {
       setAnchorEl(null);
       props.onDeleteClick(props.id);
+      setOpenDialog(false);
     }
 
     return(
@@ -56,30 +69,57 @@ export default function Card(props: ICardComponent) {
                     onClose={handleClose}
                 >
                      <MenuItem onClick={handleClose} disableRipple>
-                    <StarIcon />
-                    add
+                        <StarIcon />
+                        add
                     </MenuItem>
                     <MenuItem onClick={handleClose} disableRipple>
-                    <EditIcon />
-                    Edit
+                        <EditIcon />
+                        Edit
                     </MenuItem>
                     <MenuItem onClick={handleClose} disableRipple>
                         <IosShareIcon />
                         Share
                     </MenuItem>
-                    <MenuItem onClick={handleDelete} disableRipple>
-                    <DeleteIcon />
-                    Delete
+                    <MenuItem onClick={handleClickopenDialog} disableRipple>
+                        <DeleteIcon />
+                        Delete
                     </MenuItem>
                 </StyledMenu>
                 </div>
             </div>
             <div className="card-description">{props.description}</div>
             <div className="card-img"><img src={props.imgUri} alt={props.title}  style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: "7px"}}/></div>
+            
+      <Dialog
+        open={openDialog}
+        TransitionComponent={Transition}
+        keepMounted
+        onClose={handleClickCloseDialog}
+        aria-describedby="alert-dialog-slide-description"
+      >
+        <DialogTitle>{"Delete Card"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-slide-description">
+            Are you sure delete the card
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClickCloseDialog}>NO</Button>
+          <Button onClick={handleDelete}>YES</Button>
+        </DialogActions>
+      </Dialog>
+
         </div>
     )
 }
-
+const Transition = React.forwardRef(function Transition(
+  props: TransitionProps & {
+    children: React.ReactElement<any, any>;
+  },
+  ref: React.Ref<unknown>,
+) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 const StyledMenu = styled((props: MenuProps) => (
   <Menu

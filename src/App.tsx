@@ -31,6 +31,8 @@ function App() {
       await cardService.deleteCard(id)
       console.log(id)
       setCards((prevCards) => prevCards.filter((card) => card.id !== id))
+      setRenderCount(renderCount + 1)
+      alert("card deleted successfully")
   }
 
   function handleChildClick() {

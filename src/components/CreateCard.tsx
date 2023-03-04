@@ -51,7 +51,7 @@ export default function CreateCard(props: ChildProps) {
         }
         const addedCard = await cardService.addCard(card)
         if(addedCard) {
-          alert("bravo koçum")
+          alert("Card saved successfully")
         }
 
         setTitle("");
