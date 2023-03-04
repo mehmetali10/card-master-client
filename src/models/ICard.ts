@@ -5,4 +5,9 @@ export interface ICard {
     imgUri: string;
     dateCreated: Date;
     isStarred: boolean;
+    data? : [];
+}
+
+export interface GetCardResult {
+    data : []
 }
