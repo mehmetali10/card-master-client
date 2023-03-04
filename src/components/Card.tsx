@@ -10,19 +10,12 @@ import StarIcon from '@mui/icons-material/Star';
 import IosShareIcon from '@mui/icons-material/IosShare';
 import HttpService from '../services/httpClientService/httpService';
 import CardService from '../services/httpClientService/httpCardService/httpCardService';
-import { ICard } from '../models/ICard';
-
-interface CardParticles {
-    title: string;
-    description: string;
-    imgUri: string;
-}
+import { ICard, ICardComponent } from '../models/ICard';
 
 
-export default function Card(props: ICard) {
+export default function Card(props: ICardComponent) {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
-
 
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
       setAnchorEl(event.currentTarget);
@@ -35,8 +28,9 @@ export default function Card(props: ICard) {
         //api call
     }
     
-    const handleDelete = () => {
-        //api call
+    const handleDelete = async () => {
+      setAnchorEl(null);
+      props.onDeleteClick(props.id);
     }
 
     return(
@@ -73,7 +67,7 @@ export default function Card(props: ICard) {
                         <IosShareIcon />
                         Share
                     </MenuItem>
-                    <MenuItem onClick={handleClose} disableRipple>
+                    <MenuItem onClick={handleDelete} disableRipple>
                     <DeleteIcon />
                     Delete
                     </MenuItem>

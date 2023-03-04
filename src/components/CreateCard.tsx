@@ -6,8 +6,11 @@ import HttpService from "../services/httpClientService/httpService";
 import CardService from "../services/httpClientService/httpCardService/httpCardService";
 import { ICard } from "../models/ICard";
 
+interface ChildProps {
+  onChildClick: () => void;
+}
 
-export default function CreateCard() {
+export default function CreateCard(props: ChildProps) {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [image, setImage] = useState<string | null>(null);
@@ -43,7 +46,9 @@ export default function CreateCard() {
       if(title && title.trim() && description && description.trim() && image && image.trim()){
         const httpService = new HttpService("http://localhost:8000")
         const cardService = new CardService(httpService)
-        const card: ICard = {title: title, description: description, imgUri: image, dateCreated: new Date(), isStarred:false}
+        const card: ICard = {
+          id: 0, title: title, description: description, imgUri: image, dateCreated: new Date(), isStarred: false,
+        }
         const addedCard = await cardService.addCard(card)
         if(addedCard) {
           alert("bravo koçum")
@@ -53,6 +58,7 @@ export default function CreateCard() {
         setDescription("");
         setImage("");
         setExpanded(false);
+        props.onChildClick();
       }
       
     }

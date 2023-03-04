@@ -9,6 +9,8 @@ import CardService from "./services/httpClientService/httpCardService/httpCardSe
 
 function App() {
   const [cards, setCards] = useState<ICard[]>([]);
+  const [renderCount, setRenderCount] = useState(0);
+
   
   useEffect(()=> {
     const fetchCards = async () => {
@@ -17,18 +19,38 @@ function App() {
       const promise = cardService.getCards();
       promise.then(result => {
         const data = result.data;
-        console.log(result);
         setCards(data)
       })
-      
     }
     fetchCards();
-  }, [])
+  }, [renderCount])
+
+  async function deletecard(id: number) {
+    const httpService = new HttpService("http://localhost:8000")
+      const cardService = new CardService(httpService)
+      await cardService.deleteCard(id)
+      console.log(id)
+      setCards((prevCards) => prevCards.filter((card) => card.id !== id))
+  }
+
+  function handleChildClick() {
+    setRenderCount(renderCount + 1)
+  }
+
   return (
     <>
-      <CreateCard /> 
+      <CreateCard onChildClick={handleChildClick}/> 
       {cards.map((card) => (
-        <Card key={card.id} title={card.title} description={card.description} isStarred={card.isStarred} dateCreated={card.dateCreated} imgUri="https://lavinya.net/wp-content/uploads/2022/11/4c62ba-manzara-gol-lake-landscape-scaled.jpeg" />
+        <Card 
+          key={card.id} 
+          id={card.id} 
+          title={card.title} 
+          description={card.description} 
+          isStarred={card.isStarred} 
+          dateCreated={card.dateCreated} 
+          imgUri="https://lavinya.net/wp-content/uploads/2022/11/4c62ba-manzara-gol-lake-landscape-scaled.jpeg"
+          onDeleteClick = {deletecard}
+          />
       ))}
     </>
   );

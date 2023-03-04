@@ -25,7 +25,8 @@ class CardService {
   }
 
   public async deleteCard(id: number): Promise<void> {
-    return this.httpService.delete<void>(`/cards/${id}`);
+    const headers = { 'id': id.toString() };
+    return this.httpService.delete<void>(`/cards/${id}`, { headers });
   }
 }
 
