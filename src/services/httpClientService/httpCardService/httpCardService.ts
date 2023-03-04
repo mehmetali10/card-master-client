@@ -1,5 +1,5 @@
-import HttpService from '../httpClientService';
-import { ICard } from '../../../models/Card';
+import HttpService from '../httpService';
+import { ICard } from '../../../models/ICard';
 
 class CardService {
   private httpService: HttpService;
@@ -16,8 +16,8 @@ class CardService {
     return this.httpService.get<ICard>(`/cards/${id}`);
   }
 
-  public async addCard(card: ICard): Promise<ICard> {
-    return this.httpService.post<ICard>('/cards', card);
+  public async addCard(card: ICard): Promise<ICard[]> {
+    return this.httpService.post<ICard[]>('/cards', card);
   }
 
   public async updateCard(card: ICard): Promise<ICard> {

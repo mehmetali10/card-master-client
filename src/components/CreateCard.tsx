@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import AddIcon from '@mui/icons-material/Add';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import Fab from '@mui/material/Fab';
+import HttpService from "../services/httpClientService/httpService";
+import CardService from "../services/httpClientService/httpCardService/httpCardService";
+import { ICard } from "../models/ICard";
 
 
 export default function CreateCard() {
@@ -35,13 +38,23 @@ export default function CreateCard() {
       setExpanded(true);
     }
 
-    function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
       event.preventDefault();
+      if(title && title.trim() && description && description.trim() && image && image.trim()){
+        const httpService = new HttpService("http://localhost:8000")
+        const cardService = new CardService(httpService)
+        const card: ICard = {title: title, description: description, imgUri: image, dateCreated: new Date(), isStarred:false}
+        const addedCard = await cardService.addCard(card)
+        if(addedCard) {
+          alert("bravo koçum")
+        }
+
+        setTitle("");
+        setDescription("");
+        setImage("");
+        setExpanded(false);
+      }
       
-      setTitle("");
-      setDescription("");
-      setImage("");
-      setExpanded(false);
     }
 
 
