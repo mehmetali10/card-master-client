@@ -29,6 +29,7 @@ export interface ICardComponent {
     description: string;
     dateCreated: Date;
     isStarred: boolean;
-    onDeleteClick: any;
     downloadedUri: string;
+    onDeleteClick: any;
+    onUpdateClick: any;
 }

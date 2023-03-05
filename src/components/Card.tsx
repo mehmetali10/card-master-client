@@ -46,11 +46,16 @@ export default function Card(props: ICardComponent) {
       setOpenDialog(false);
     }
 
+    const handleUpdate = async () => {
+      setAnchorEl(null)
+      props.onUpdateClick(props.id);
+    }
+
     return(
         <div className="card">
             <div className="card-header">
                 <div className="card-title">
-                {props.title}
+                {props.title}{props.isStarred && "🌟"}
                 </div>
                 <div className="card-options">
                 <Button
@@ -68,11 +73,11 @@ export default function Card(props: ICardComponent) {
                     open={open}
                     onClose={handleClose}
                 >
-                     <MenuItem onClick={handleClose} disableRipple>
+                     <MenuItem onClick={handleUpdate} disableRipple>
                         <StarIcon />
-                        add
+                        {props.isStarred ? "remove":"add"}
                     </MenuItem>
-                    <MenuItem onClick={handleClose} disableRipple>
+                    <MenuItem onClick={handleUpdate} disableRipple>
                         <EditIcon />
                         Edit
                     </MenuItem>

@@ -12,10 +12,15 @@ import { getDownloadURL, ref } from "firebase/storage";
 function App() {
   const [cards, setCards] = useState<ICardEffect[]>([]);
   const [renderCount, setRenderCount] = useState(0);
-  const imagesListRef = ref(storage, "images/");
+  const [reverseCards, setReverseCards] = useState<ICardEffect[]>([]);
   
+  useEffect(() => {
+    setReverseCards([...cards].reverse())
+  },[cards])
+
   useEffect(()=> {
     const fetchCards = async () => {
+      const imagesListRef = ref(storage, "images/");
       const httpService = new HttpService("http://localhost:8000")
       const cardService = new CardService(httpService)
       const promise = cardService.getCards();
@@ -35,15 +40,18 @@ function App() {
       })
     }
     fetchCards();
-  }, [imagesListRef, renderCount])
+  }, [renderCount])
 
   async function deletecard(id: number) {
     const httpService = new HttpService("http://localhost:8000")
-      const cardService = new CardService(httpService)
-      await cardService.deleteCard(id)
-      console.log(id)
-      setCards((prevCards) => prevCards.filter((card) => card.id !== id))
-      setRenderCount(renderCount + 1)
+    const cardService = new CardService(httpService)
+    await cardService.deleteCard(id)
+    setCards((prevCards) => prevCards.filter((card) => card.id !== id))
+    setRenderCount(renderCount + 1)
+  }
+
+  async function updateCard(id: number) {
+    
   }
 
   function handleChildClick() {
@@ -53,7 +61,7 @@ function App() {
   return (
     <>
       <CreateCard onChildClick={handleChildClick}/> 
-      {cards.map((card) => (
+      {reverseCards.map((card) => (
         <Card 
           key={card.id} 
           id={card.id} 
@@ -63,6 +71,7 @@ function App() {
           dateCreated={card.dateCreated} 
           downloadedUri={card.downloadedUri}
           onDeleteClick = {deletecard}
+          onUpdateClick={updateCard}
           />
       ))}
     </>
