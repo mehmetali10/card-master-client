@@ -88,7 +88,7 @@ export default function Card(props: ICardComponent) {
                 </div>
             </div>
             <div className="card-description">{props.description}</div>
-            <div className="card-img"><img src={props.imgUri} alt={props.title}  style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: "7px"}}/></div>
+            <div className="card-img"><img src={props.downloadedUri} alt={props.title}  style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: "7px"}}/></div>
             
       <Dialog
         open={openDialog}

@@ -3,14 +3,17 @@ import { useEffect, useState } from "react";
 import CreateCard from "./components/CreateCard";
 import Card from "./components/Card";
 import HttpService from "./services/httpClientService/httpService";
-import { ICard } from "./models/ICard";
+import { ICardEffect } from "./models/ICard";
 import CardService from "./services/httpClientService/httpCardService/httpCardService";
+import { storage } from "./services/firebase/firebaseConfig";
+import { getDownloadURL, ref } from "firebase/storage";
 
 
 function App() {
-  const [cards, setCards] = useState<ICard[]>([]);
+  const [cards, setCards] = useState<ICardEffect[]>([]);
+  const [urls, setUrls] = useState([]);
   const [renderCount, setRenderCount] = useState(0);
-
+  const imagesListRef = ref(storage, "images/");
   
   useEffect(()=> {
     const fetchCards = async () => {
@@ -19,11 +22,21 @@ function App() {
       const promise = cardService.getCards();
       promise.then(result => {
         const data = result.data;
-        setCards(data)
+        Promise.all(data.map((item: ICardEffect) => {
+          const fileRef = ref(imagesListRef, `${item.imgUri}`);
+          return getDownloadURL(fileRef);
+        })).then((urls) => {
+          var theEnd : ICardEffect[];
+          theEnd = data.map((item: ICardEffect, index) => ({
+            ...item,
+            downloadedUri: urls[index]
+          }));
+          setCards(theEnd)
+        })
       })
     }
     fetchCards();
-  }, [renderCount])
+  }, [imagesListRef, renderCount])
 
   async function deletecard(id: number) {
     const httpService = new HttpService("http://localhost:8000")
@@ -32,7 +45,6 @@ function App() {
       console.log(id)
       setCards((prevCards) => prevCards.filter((card) => card.id !== id))
       setRenderCount(renderCount + 1)
-      alert("card deleted successfully")
   }
 
   function handleChildClick() {
@@ -50,7 +62,7 @@ function App() {
           description={card.description} 
           isStarred={card.isStarred} 
           dateCreated={card.dateCreated} 
-          imgUri="https://lavinya.net/wp-content/uploads/2022/11/4c62ba-manzara-gol-lake-landscape-scaled.jpeg"
+          downloadedUri={card.downloadedUri}
           onDeleteClick = {deletecard}
           />
       ))}

@@ -2,25 +2,40 @@ import React, { useState } from "react";
 import AddIcon from '@mui/icons-material/Add';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import Fab from '@mui/material/Fab';
+import {
+  ref,
+  uploadBytes,
+  getDownloadURL,
+  listAll,
+  list,
+  uploadBytesResumable,
+} from "firebase/storage";
+import { storage } from "../services/firebase/firebaseConfig";
+//import { v4 } from "uuid";
 import HttpService from "../services/httpClientService/httpService";
 import CardService from "../services/httpClientService/httpCardService/httpCardService";
 import { ICard } from "../models/ICard";
+import { v4 } from "uuid";
 
 interface ChildProps {
   onChildClick: () => void;
 }
 
 export default function CreateCard(props: ChildProps) {
+  const [percent, setPercent] = useState(0);
+    const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
-    const [image, setImage] = useState<string | null>(null);
+    const [imageUpload, setImageUpload] = useState<string | null>(null);
     const [isExpanded, setExpanded] = useState<boolean>(false);
+    const imagesListRef = ref(storage, "images/");
 
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
       if (event.target.files && event.target.files[0]) {
         const selectedImage = URL.createObjectURL(event.target.files[0]);
-        setImage(selectedImage);
+        setImageUpload(selectedImage);
+        setSelectedFile(event.target.files[0]);
       }
     };
 
@@ -43,12 +58,20 @@ export default function CreateCard(props: ChildProps) {
 
     async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
       event.preventDefault();
-      if(title && title.trim() && description && description.trim() && image && image.trim()){
+      if(title && title.trim() && description && description.trim() && imageUpload && imageUpload.trim()){
+        const card: ICard = {
+          id: 0, title: title, description: description, imgUri: imageUpload, dateCreated: new Date(), isStarred: false,
+        }
+
+        const imageConcanitation = v4() + selectedFile?.name;
+        const storageRef = ref(storage, `images/${imageConcanitation}`);
+        card.imgUri = imageConcanitation;
+        
+        uploadBytes(storageRef, await fileToBlob(selectedFile)).then((snapshot) => {})
+
+
         const httpService = new HttpService("http://localhost:8000")
         const cardService = new CardService(httpService)
-        const card: ICard = {
-          id: 0, title: title, description: description, imgUri: image, dateCreated: new Date(), isStarred: false,
-        }
         const addedCard = await cardService.addCard(card)
         if(addedCard) {
           alert("Card saved successfully")
@@ -56,7 +79,7 @@ export default function CreateCard(props: ChildProps) {
 
         setTitle("");
         setDescription("");
-        setImage("");
+        setImageUpload("");
         setExpanded(false);
         props.onChildClick();
       }
@@ -85,9 +108,9 @@ export default function CreateCard(props: ChildProps) {
           />
         {isExpanded && (
           <div className="image-upload">
-          {image ? (
+          {imageUpload ? (
             <img
-              src={image}
+              src={imageUpload}
               alt="uploaded"
               style={{ width: "100%", height: "100%", objectFit: "cover" }}
             />
@@ -113,4 +136,60 @@ export default function CreateCard(props: ChildProps) {
         </form>
       </div>
     )
+}
+
+function convertStringToBlob(str: string, mimeType: string): Blob {
+  const bytes = new Uint8Array(str.length);
+  for (let i = 0; i < str.length; i++) {
+    bytes[i] = str.charCodeAt(i);
+  }
+  return new Blob([bytes.buffer], { type: mimeType });
+}
+function fileToUint8Array(file: File | null): Promise<Uint8Array> {
+  return new Promise((resolve, reject) => {
+    if (file === null) {
+      reject(new Error("File is null."));
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      if (reader.result instanceof ArrayBuffer) {
+        const uint8Array = new Uint8Array(reader.result);
+        resolve(uint8Array);
+      } else {
+        reject(new Error("Could not convert file to Uint8Array."));
+      }
+    };
+    reader.readAsArrayBuffer(file);
+  });
+}
+function stringToUint8Array(str: string): Uint8Array {
+  const charList = str.split('');
+  const uintArray = [];
+  for (let i = 0; i < charList.length; i++) {
+    uintArray.push(charList[i].charCodeAt(0));
+  }
+  return new Uint8Array(uintArray);
+}
+function fileToBlob(file: File | null): Promise<Blob> {
+  return new Promise((resolve, reject) => {
+    if (!file) {
+      reject(new Error("File is null or undefined."));
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      if (reader.result instanceof ArrayBuffer) {
+        const blob = new Blob([new Uint8Array(reader.result)], {
+          type: file.type
+        });
+        resolve(blob);
+      } else {
+        reject(new Error("Could not convert file to Blob."));
+      }
+    };
+    reader.readAsArrayBuffer(file);
+  });
 }
