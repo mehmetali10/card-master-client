@@ -2,16 +2,8 @@ import React, { useState } from "react";
 import AddIcon from '@mui/icons-material/Add';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import Fab from '@mui/material/Fab';
-import {
-  ref,
-  uploadBytes,
-  getDownloadURL,
-  listAll,
-  list,
-  uploadBytesResumable,
-} from "firebase/storage";
+import { ref, uploadBytes} from "firebase/storage";
 import { storage } from "../services/firebase/firebaseConfig";
-//import { v4 } from "uuid";
 import HttpService from "../services/httpClientService/httpService";
 import CardService from "../services/httpClientService/httpCardService/httpCardService";
 import { ICard } from "../models/ICard";
@@ -22,13 +14,11 @@ interface ChildProps {
 }
 
 export default function CreateCard(props: ChildProps) {
-  const [percent, setPercent] = useState(0);
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [imageUpload, setImageUpload] = useState<string | null>(null);
     const [isExpanded, setExpanded] = useState<boolean>(false);
-    const imagesListRef = ref(storage, "images/");
 
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -138,40 +128,6 @@ export default function CreateCard(props: ChildProps) {
     )
 }
 
-function convertStringToBlob(str: string, mimeType: string): Blob {
-  const bytes = new Uint8Array(str.length);
-  for (let i = 0; i < str.length; i++) {
-    bytes[i] = str.charCodeAt(i);
-  }
-  return new Blob([bytes.buffer], { type: mimeType });
-}
-function fileToUint8Array(file: File | null): Promise<Uint8Array> {
-  return new Promise((resolve, reject) => {
-    if (file === null) {
-      reject(new Error("File is null."));
-      return;
-    }
-
-    const reader = new FileReader();
-    reader.onload = () => {
-      if (reader.result instanceof ArrayBuffer) {
-        const uint8Array = new Uint8Array(reader.result);
-        resolve(uint8Array);
-      } else {
-        reject(new Error("Could not convert file to Uint8Array."));
-      }
-    };
-    reader.readAsArrayBuffer(file);
-  });
-}
-function stringToUint8Array(str: string): Uint8Array {
-  const charList = str.split('');
-  const uintArray = [];
-  for (let i = 0; i < charList.length; i++) {
-    uintArray.push(charList[i].charCodeAt(0));
-  }
-  return new Uint8Array(uintArray);
-}
 function fileToBlob(file: File | null): Promise<Blob> {
   return new Promise((resolve, reject) => {
     if (!file) {

@@ -11,7 +11,6 @@ import { getDownloadURL, ref } from "firebase/storage";
 
 function App() {
   const [cards, setCards] = useState<ICardEffect[]>([]);
-  const [urls, setUrls] = useState([]);
   const [renderCount, setRenderCount] = useState(0);
   const imagesListRef = ref(storage, "images/");
   
