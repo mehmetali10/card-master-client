@@ -53,7 +53,7 @@ export default function Card(props: ICardComponent) {
     }
 
     return(
-        <div className="card">
+        <div className="card" draggable="true">
             <div className="card-header">
                 <div className="card-title">
                 {props.title}{props.isStarred && "🌟"}

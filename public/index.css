@@ -7,9 +7,33 @@ html {
   font-family: "Montserrat", sans-serif;
 }
 body {
-  background: #eee;
+  background: #EAEAEA;
   background-image: url("https://www.transparenttextures.com/patterns/cubes.png");
+  background-image: url("https://www.transparenttextures.com/patterns/batthern.png");
+  background-image: url("https://www.transparenttextures.com/patterns/cartographer.png");
   padding: 0 16px;
+  font-family: 'Golos Text', sans-serif;
+  color: #393E46;
+}
+
+body::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	border-radius: 10px;
+	background-color: #F5F5F5;
+}
+
+body::-webkit-scrollbar
+{
+	width: 8px;
+	background-color: #F5F5F5;
+}
+
+body::-webkit-scrollbar-thumb
+{
+	border-radius: 10px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+	background-color: #555;
 }
 
 /* createcard style*/
@@ -91,6 +115,7 @@ form.create-note button {
   box-shadow: 0 2px 5px #ccc;
   margin: 50px 30px;
   float: left;
+  box-shadow: 1px 1px 2px 1px;
 }
 .card-header {
   display: flex;
@@ -118,7 +143,7 @@ form.create-note button {
   flex: 1;
   font-size: 1.5em;
   font-weight: 600;
-  color: rgb(54, 47, 47);
+  color: rgb(72, 63, 63);
 }
 .card-description {
   color: rgb(90, 74, 61);
@@ -134,6 +159,7 @@ form.create-note button {
   align-items: center;
   justify-content: center;
   background-color: #e6e6e6;
+  border: 1px double;
+  border-radius: 10px;
   margin-bottom: 10px;
-  border-radius: 7px;
 }
