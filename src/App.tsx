@@ -51,7 +51,16 @@ function App() {
   }
 
   async function updateCard(id: number) {
-    
+    console.log(id)
+    const httpService = new HttpService("http://localhost:8000")
+    const cardService = new CardService(httpService)
+    let rcard = (await cardService.getCardById2(id)).data.at(0);
+    console.log(rcard?.isStarred);
+    if(rcard?.isStarred || rcard?.isStarred === false) {
+      rcard.isStarred = !rcard.isStarred
+    }
+    cardService.updateCard(rcard)
+    setRenderCount(renderCount + 1)
   }
 
   function handleChildClick() {

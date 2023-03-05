@@ -1,5 +1,5 @@
 import HttpService from '../httpService';
-import { ICard, GetCardResult } from '../../../models/ICard';
+import { ICard, GetCardResult, IGetCardById2, IGetCardById } from '../../../models/ICard';
 
 class CardService {
   private httpService: HttpService;
@@ -13,15 +13,21 @@ class CardService {
   }
 
   public async getCardById(id: number): Promise<ICard> {
-    return this.httpService.get<ICard>(`/cards/${id}`);
+    const headers = { 'id': id.toString() };
+    return this.httpService.get<ICard>(`/cards/${id}`, {headers});
+  }
+
+  public async getCardById2(id: number): Promise<IGetCardById2> {
+    const headers = { 'id': id.toString() };
+    return this.httpService.get<IGetCardById2>(`/cards/${id}`, {headers});
   }
 
   public async addCard(card: ICard): Promise<ICard[]> {
     return this.httpService.post<ICard[]>('/cards', card);
   }
 
-  public async updateCard(card: ICard): Promise<ICard> {
-    return this.httpService.put<ICard>(`/cards`, card);
+  public async updateCard(card: IGetCardById | undefined): Promise<IGetCardById> {
+    return this.httpService.put<IGetCardById>(`/cards`, card);
   }
 
   public async deleteCard(id: number): Promise<void> {

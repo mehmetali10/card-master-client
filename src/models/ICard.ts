@@ -19,6 +19,21 @@ export interface ICardEffect{
     data? : [];
 }
 
+export interface IGetCardById {
+    id : number;
+    title: string;
+    description: string;
+    imgUri: string;
+    dateCreated: Date;
+    isStarred: boolean;
+}
+
+export interface IGetCardById2 {
+    type: string;
+    data: IGetCardById[];
+    message: string;
+}
+
 export interface GetCardResult {
     data : []
 }

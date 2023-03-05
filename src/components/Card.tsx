@@ -7,6 +7,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import StarIcon from '@mui/icons-material/Star';
+import StarBorderIcon from '@mui/icons-material/StarBorder';
 import IosShareIcon from '@mui/icons-material/IosShare';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -74,16 +75,8 @@ export default function Card(props: ICardComponent) {
                     onClose={handleClose}
                 >
                      <MenuItem onClick={handleUpdate} disableRipple>
-                        <StarIcon />
+                        {props.isStarred ? <StarBorderIcon /> :<StarIcon />}
                         {props.isStarred ? "remove":"add"}
-                    </MenuItem>
-                    <MenuItem onClick={handleUpdate} disableRipple>
-                        <EditIcon />
-                        Edit
-                    </MenuItem>
-                    <MenuItem onClick={handleClose} disableRipple>
-                        <IosShareIcon />
-                        Share
                     </MenuItem>
                     <MenuItem onClick={handleClickopenDialog} disableRipple>
                         <DeleteIcon />
