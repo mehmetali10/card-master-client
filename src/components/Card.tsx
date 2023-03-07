@@ -3,12 +3,10 @@ import { styled, alpha } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import Menu, { MenuProps } from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
-import IosShareIcon from '@mui/icons-material/IosShare';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -53,7 +51,7 @@ export default function Card(props: ICardComponent) {
     }
 
     return(
-        <div className="card" draggable="true">
+        <div className="card">
             <div className="card-header">
                 <div className="card-title">
                 {props.title}{props.isStarred && "🌟"}
@@ -75,8 +73,8 @@ export default function Card(props: ICardComponent) {
                     onClose={handleClose}
                 >
                      <MenuItem onClick={handleUpdate} disableRipple>
-                        {props.isStarred ? <StarBorderIcon /> :<StarIcon />}
-                        {props.isStarred ? "remove":"add"}
+                        {props.isStarred ? <StarBorderIcon /> : <StarIcon />}
+                        {props.isStarred ? "Remove":"Add"}
                     </MenuItem>
                     <MenuItem onClick={handleClickopenDialog} disableRipple>
                         <DeleteIcon />

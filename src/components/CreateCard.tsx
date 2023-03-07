@@ -72,8 +72,9 @@ export default function CreateCard(props: ChildProps) {
         setImageUpload("");
         setExpanded(false);
         props.onChildClick();
+      }else {
+        alert("Please fill all the inputs")
       }
-      
     }
 
 
